@@ -41,17 +41,31 @@ export function editItem(index, payload) {
     },
   };
 }
-
+// export function fetchList(payload) {
+//   const supplies = [{ name: "", value: 0, unit: "", minVal: 0 }];
+//   const shoppingList = [{ name: "", value: 0, unit: "", minVal: 0 }];
+//   return {
+//         type: FETCH_LIST,
+//         payload: {
+//           type: payload.type,
+//           supplies: [...supplies],
+//           shoppingList: [...shoppingList],
+//         },
+//       };
+// }
 export function fetchList(payload) {
   let supplies;
   let shoppingList;
-  if (localStorage.getItem("state") === undefined) {
-    localStorage.setItem("state", {
-      supplies: [{ name: "", unit: " szt.", val: 0, minVal: 0 }],
-      shoppingList: [{ name: "", unit: " szt.", val: 0, minVal: 0 }],
-    });
+  if (
+    localStorage.getItem("state") === undefined ||
+    localStorage.getItem("state") === null ||
+    localStorage.getItem("state") === "null"
+  ) {
     supplies = [{ name: "", unit: " szt.", val: 0, minVal: 0 }];
     shoppingList = [{ name: "", unit: " szt.", val: 0, minVal: 0 }];
+    let initialStorageObject = JSON.stringify({ supplies, shoppingList });
+    localStorage.setItem("state", initialStorageObject);
+    console.log("Pusty storage" + localStorage.getItem("state"));
   } else {
     if (JSON.parse(localStorage.getItem("state")).supplies !== null) {
       supplies = [...JSON.parse(localStorage.getItem("state")).supplies];

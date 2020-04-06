@@ -13,10 +13,6 @@ import {
   checkShoppingList,
 } from "../actions/actions";
 
-// Type of actions
-const SUPPLY = "SUPPLY";
-const SHOP = "SHOP";
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -31,10 +27,10 @@ class Home extends Component {
     this.changeNum = this.changeNum.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-
-    this.props.onFetch({ type: SUPPLY });
   }
-
+  componentDidMount() {
+    this.props.onFetch({ type: "SUPPLY" });
+  }
   componentDidUpdate(prevProps) {
     if (prevProps === this.state.props) {
       return;
@@ -85,7 +81,7 @@ class Home extends Component {
     // Akcja usuwająca item ze store'a
     const payloadRemove = {
       name,
-      type: SUPPLY,
+      type: "SUPPLY",
     };
     this.props.onRemove(payloadRemove);
   }

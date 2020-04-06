@@ -34,16 +34,20 @@ function stateOfApp(state = initialState, action) {
       if (isNaN(state)) {
         state = initialState;
       }
-      if (action.payload.type) {
-        const newState = JSON.parse(localStorage.getItem("state"));
+      if (!action.payload.type) {
+        const newState = {
+          supplies: [{ name: "", value: 0, unit: "", minVal: 0 }],
+          shoppingList: [{ name: "", value: 0, unit: "", minVal: 0 }],
+        };
         return Object.assign({}, state, {
           supplies: [...newState.supplies],
           shoppingList: [...newState.shoppingList],
         });
       } else {
-        return console.log(
-          "Błąd w reducerze podczas fetchowania danych z localStorage"
-        );
+        return Object.assign({}, state, {
+          supplies: [...action.payload.supplies],
+          shoppingList: [...action.payload.shoppingList],
+        });
       }
     case REMOVE_ITEM:
       if (action.payload.type === SUPPLY) {

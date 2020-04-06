@@ -3,6 +3,9 @@ import DeleteBtn from "./DelBtn";
 import EditItem from "./EditItem";
 
 const Item = (props) => {
+  if (props.name === "" || props.name === undefined) {
+    return null;
+  }
   return (
     <div className="w-full p-4 mb-4 max-w-screen-md">
       <div className="p-2 relative border-bottom border-solid border-2 flex justify-between flex-row mx-5">
