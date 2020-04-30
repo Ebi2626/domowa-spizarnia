@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Line = styled.span`
   display: block;
@@ -9,7 +10,7 @@ const Line = styled.span`
   width: 40px;
   height: 4px;
   border-radius: 15px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s linear;
 `;
 const Hamburger = styled.div`
   padding-top: 8px;
@@ -18,17 +19,19 @@ const Hamburger = styled.div`
   height: 40px;
   left: -48px;
   top: 5px;
+  &:hover {
+    cursor: pointer;
+  }
   &:hover > * {
-    background: black;
+    background: teal;
   }
 `;
 
-const EditItem = (props) => {
+const EditItem = ({ togglePopup, num, ...props }) => {
   return (
     <Hamburger
       onClick={() => {
-        console.log(`W Editing ${props.num}`);
-        props.togglePopup(props, props.num);
+        togglePopup(props, num);
       }}
     >
       <Line></Line>
@@ -36,6 +39,11 @@ const EditItem = (props) => {
       <Line></Line>
     </Hamburger>
   );
+};
+
+EditItem.propTypes = {
+  togglePopup: PropTypes.func, //function to close Popup
+  num: PropTypes.number, //number with information which item is editing
 };
 
 export default EditItem;

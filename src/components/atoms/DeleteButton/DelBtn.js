@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const DeleteBtn = styled.span`
@@ -15,6 +14,7 @@ const DeleteBtn = styled.span`
   transition: all 0.3s ease-in-out;
   &:hover {
     background: teal;
+    cursor: pointer;
   }
 `;
 

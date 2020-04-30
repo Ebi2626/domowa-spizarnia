@@ -1,32 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "./../../atoms/Header/Header";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ClosingSpan = styled.span`
   display: block;
   position: absolute;
-  color: black;
-  top: 20px;
-  right: 20px;
+  text-align: center;
+  color: white;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  height: 30px;
+  background: teal;
+  z-index: 100;
+  transition: all 0.3s ease-in-out;
   &:hover {
     color: teal;
+    background: white;
+    cursor: pointer;
   }
 `;
 
-const Popup = (props) => {
+const Popup = ({ handleEdit, togglePopup, shop, changeNum, num, ...props }) => {
   const [name, setName] = useState(props.name || "");
   const [val, setVal] = useState(props.val || 0);
   const [unit, setUnit] = useState(props.unit || "");
-  const [minVal, setMinVal] = useState(props.minVal || "");
-  useEffect(() => {
-    console.log(name, val, unit, minVal, props.num);
-  });
+  const [minVal, setMinVal] = useState(props.minVal || 0);
 
   return (
     <form className="fixed z-50 bg-white shadow-md rounded p-4 top-0">
-      <ClosingSpan
-        onClick={() => props.togglePopup(() => props.changeNum(props.num))}
-      >
+      <ClosingSpan onClick={() => togglePopup(() => changeNum(num))}>
         X
       </ClosingSpan>
       <Header title="Wprowadź nowe dane" />
@@ -61,7 +67,7 @@ const Popup = (props) => {
           name="value"
           placeholder="Poprawna ilość prodktu..."
           value={val}
-          onChange={(e) => setVal(e.target.value)}
+          onChange={(e) => setVal(Number(e.target.value))}
         />
       </div>
       <div className="mb-4">
@@ -84,31 +90,29 @@ const Popup = (props) => {
         </select>
       </div>
 
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="minVal"
-        >
-          Minimalna ilość produktu (do wysłania przypomnienia!)
-        </label>
-        <input
-          required
-          value={minVal}
-          placeholder="Ilość poniżej której wysłane zostanie przypomnienie"
-          name="minVal"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type="number"
-          onChange={(e) => setMinVal(e.target.value)}
-        />
-      </div>
+      {!shop && (
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="minVal"
+          >
+            Minimalna ilość produktu (do wysłania przypomnienia!)
+          </label>
+          <input
+            required
+            value={minVal}
+            placeholder="Ilość poniżej której wysłane zostanie przypomnienie"
+            name="minVal"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="number"
+            onChange={(e) => setMinVal(Number(e.target.value))}
+          />
+        </div>
+      )}
       <button
         className="shadow block bg-teal-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white mx-auto mt-8 font-bold py-2 px-4 rounded"
         onClick={() =>
-          name &&
-          val &&
-          unit &&
-          minVal &&
-          props.handleEdit(props.num, { name, val, unit, minVal })
+          name && val && unit && handleEdit(num, { name, val, unit, minVal })
         }
         type="button"
       >
@@ -116,6 +120,14 @@ const Popup = (props) => {
       </button>
     </form>
   );
+};
+
+Popup.propTypes = {
+  handleEdit: PropTypes.func, // Function to handle editing item to redux and local storage
+  togglePopup: PropTypes.func, // Function to toggle popup with form
+  shop: PropTypes.bool, // Information is it shopping list
+  changeNum: PropTypes.func, // Function to change current editing item
+  num: PropTypes.number, // Information of current item
 };
 
 export default Popup;
