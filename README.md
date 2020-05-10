@@ -45,7 +45,7 @@ A step by step series of examples that tell you how to get a development env run
 
 ## Wersjonowanie (versioning)
 
-I use [SemVer](http://semver.org/) for versioning. 
+Używam [SemVer](http://semver.org/) do wersjonowania. (I use [SemVer](http://semver.org/) for versioning).
 
 ## Autor (author)
 
